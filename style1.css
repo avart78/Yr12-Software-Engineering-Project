@@ -1,0 +1,494 @@
+@import url('https://fonts.googleapis.com/css2?family=Aptos&display=swap');
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 
+    'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    color: rgb(255, 255, 255);
+    padding: 35px 30px;
+}
+
+.logo img {
+    height: 60px; /* Adjust the height as needed */
+    width: auto;
+}
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    gap: 40px; /* Slightly tighter spacing */
+    margin-right: 40px;
+    margin-left: auto;
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li:nth-child(-n+3) {
+    margin-right: 80px; /* Push first 3 links to the left */
+    margin-left: 50px;   /* Adjust this to center them nicely */
+}
+
+nav ul li a {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Style "Login" button */
+nav ul li:nth-child(4) a {
+    background-color: #008C45; 
+    color: rgb(0, 0, 0);
+}
+
+nav ul li:nth-child(4) a:hover {
+    background-color: #0b5a1c; 
+}
+
+/* Style "Sign Up" button */
+nav ul li:nth-child(5) a {
+    background-color: #CD212A; 
+    color: rgb(0, 0, 0);
+}
+
+nav ul li:nth-child(5) a:hover {
+    background-color: #850808; 
+}
+
+.homepage_image {
+    width: 100%; 
+    height: auto; 
+    display: block; 
+    margin: 0; 
+}
+
+.full-width-text {
+  max-width: 100vw; /* Limits the width to the viewport */
+  width: 100%;
+  padding: 20px;
+  background-color: #f8f8f8; /* Optional */
+  text-align: justify;
+  font-size: 18px;
+  line-height: 1.6;
+  box-sizing: border-box; /* Ensures padding doesn't increase width */
+  overflow-wrap: break-word; /* Prevents text from overflowing */
+}
+
+.footer {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+.footer-section {
+  flex: 1; /* Makes each section adapt proportionally */
+  padding: 20px;
+  text-align: center;
+}
+
+.left {
+  background-color: #008C45; /* Green */
+  color: white;
+}
+
+.middle {
+  background-color: #ffffff; /* White */
+  color: black;
+  font-weight: bold;
+}
+
+.right {
+  background-color: #CD212A; /* Red */
+  color: white;
+}
+
+/* Ensure the footer sections adjust on smaller screens */
+@media (max-width: 600px) {
+  .footer {
+    flex-direction: column; /* Stacks the sections */
+  }
+}
+
+.image-section {
+        margin-top: 50px; 
+        margin-right: 40px; /* Adds space on the right side */
+        text-align: right; /* Aligns image to the right */
+    }
+
+    .image-section img {
+        max-width: 100%; /* Ensures responsive scaling */
+        height: auto;
+    }
+
+    .account-page-text {
+      margin-left: 250px;
+      position: absolute;
+      top: 350px; /* Adjust this value to move it higher */
+    }
+    
+    .signup-button {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 
+    'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    background-color: red;
+    color: rgb(0, 0, 0);
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.signup-button:hover {
+    background-color: rgb(173, 7, 7);
+}
+
+.about-wrapper {
+  position: relative;
+}
+
+/* Main Pomodoro image */
+.pom-image {
+  margin-top: 80px;
+  margin-right: 40px;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 40px;
+}
+
+/* Pomodoro image style */
+.pom-image img {
+  max-width: 40%;
+  height: auto;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* About Us heading */
+.about-us-text {
+  position: absolute;
+  top: 180px;
+  margin-left: 50px;
+}
+
+/* About Us paragraph */
+.about-us-paragraph {
+  position: absolute;
+  top: 275px;
+  margin-left: 50px;
+  width: 775px;
+  font-family: system-ui, sans-serif;
+  font-size: large;
+  text-align: justify;
+  word-wrap: break-word;
+}
+
+.focus-image {
+  position: absolute;
+  top: 800px;      /* move image vertically */
+  left: 50px;     /* move image horizontally from the right */
+  width: 750px;    /* control size directly */
+  height: auto;
+  z-index: 1;      /* optional: keep it above other elements if overlapping */
+}
+
+.focus-image img {
+  width: 100%;     /* ensures image fills container width */
+  height: auto;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* optional: subtle depth */
+}
+
+.focus-paragraph {
+  position: absolute;
+  top: 790px;         /* adjust vertical alignment */
+  right: 80px;       /* space from the right edge or adjust for alignment next to image */
+  width: 600px;       /* tweak width to control text wrapping */
+  font-family: system-ui, sans-serif;
+  font-size: large;
+  text-align: justify;
+  line-height: 1.6;
+  z-index: 1;         /* ensures it appears above background if needed */
+}
+
+/* Main Layout */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 80px;
+  padding: 50px;
+  gap: 50px;
+  margin-left: 200px;
+}
+
+/* Image Grid */
+.login-image {
+  flex: 1;
+}
+
+.login-image img {
+  width: 105%;
+  max-width: 600px;
+  height: auto;
+  margin-left: -100px; /* Adjust this value as needed */
+}
+
+/* Login Form */
+.login-form {
+  flex: 1;
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid black;
+  max-width: 400px;
+}
+
+.login-form h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  font-size: 1rem;
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.log-in-btn {
+  width: 100%;
+  background-color: #128800;
+  color: white;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+  Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1rem;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.log-in-btn:hover {
+  background-color: #008C45;
+}
+
+.signup-text {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 1rem;
+}
+
+.signup-text a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 992px) {
+  .login-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .image-grid img {
+    max-width: 100%;
+  }
+
+  .login-form {
+    max-width: 100%;
+  }
+}
+
+/* Main Layout */
+.signup-container {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 0;
+    gap: 50px;
+}
+
+/* Sign-Up Form */
+.signup-form {
+    flex: 1;
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid black;
+    max-width: 400px;
+    margin-top: 60px;   /* move down */
+    margin-left: 120px;  /* move right */
+}
+
+.signup-form h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Input Fields */
+.signup-form label {
+    font-size: 1rem;
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
+
+.signup-form input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Sign In Button */
+.sign-up-btn {
+    width: 100%;
+    background-color: #CD212A;
+    color: white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, 
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 1rem;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.sign-up-btn:hover {
+    background-color: #a4151c;
+}
+
+/* Sign-In Text */
+.signin-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1rem;
+}
+
+.signin-text a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.signin-text a:hover {
+    text-decoration: underline;
+}
+
+/* Image Grid */
+.image-grid {
+    flex: 1;
+    width: 50%;
+    padding: 0;
+    margin: 0;
+}
+
+.image-grid img {
+    width: 90%;
+    height: auto;
+    display: block;
+    margin-top: -515px;
+    margin-left: 725px;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .signup-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .image-grid {
+        width: 100%;
+    }
+}
+
+/* Timer function begin's here */
+
+/* Only affects timer and customisation layout */
+.timer-section {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.timer-display {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+#startStopBtn {
+  padding: 0.6rem 1.6rem;
+  font-size: 1rem;
+  background-color: #0078D4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Customisation styling */
+.session-customisation {
+  margin-top: 2rem;
+}
+
+.session-customisation h3 {
+  margin-bottom: 1rem;
+}
+
+.session-customisation label {
+  display: block;
+  margin: 0.5rem 0 0.2rem;
+}
+
+.session-customisation input {
+  width: 70px;
+  padding: 0.3rem;
+  margin-right: 10px;
+}
+
+#scheduleDisplay {
+  margin-top: 2rem;
+  font-size: 1rem;
+}
