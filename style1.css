@@ -250,6 +250,27 @@ nav ul li:nth-child(5) a:hover {
   position: relative;
 }
 
+/* Rating page specific layout - image on left, text on right */
+.rating-image-section {
+  margin-top: 90px;
+  margin-left: 40px;       
+  width: 50%;              
+  float: left;
+  text-align: left;
+}
+
+.rating-image-section img {
+  width: 100%;            
+  height: auto;
+}
+
+.rating-page-text {
+  margin-left: 66%;        
+  position: absolute;
+  top: 350px;
+  width: 34%;              
+}
+
 /* Main Pomodoro image */
 .pom-image {
   margin-top: 80px;
