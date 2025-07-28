@@ -73,11 +73,96 @@ nav ul li:nth-child(5) a:hover {
     background-color: #850808; 
 }
 
-.homepage_image {
-    width: 100%; 
-    height: auto; 
-    display: block; 
-    margin: 0; 
+/* Timer Hero Section */
+.timer-hero-section {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    background-image: url('homepage_image.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-overlay {
+    text-align: center;
+    color: #000;
+}
+
+.timer-display {
+    font-size: 6rem;
+    font-weight: bold;
+    font-family: 'Aptos', sans-serif;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.start-button {
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.start-button:hover {
+    background-color: #218838;
+}
+
+.attribution {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    color: white;
+    font-size: 0.8rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Timer Settings Section */
+.timer-settings {
+    background-color: white;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.setting-row {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.setting-label {
+    font-weight: bold;
+}
+
+.setting-value {
+    color: #666;
+    margin-left: 0.5rem;
+}
+
+.schedule-section {
+    margin-top: 1.5rem;
+}
+
+.schedule-label {
+    font-weight: bold;
+    text-decoration: underline;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.schedule-display {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 1.1rem;
 }
 
 .full-width-text {
@@ -444,51 +529,72 @@ nav ul li:nth-child(5) a:hover {
     }
 }
 
-/* Timer function begin's here */
-
-/* Only affects timer and customisation layout */
-.timer-section {
-  text-align: center;
-  margin: 3rem 0;
-}
-
-.timer-display {
-  font-size: 4rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-#startStopBtn {
-  padding: 0.6rem 1.6rem;
-  font-size: 1rem;
-  background-color: #0078D4;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Customisation styling */
+/* Session Customisation styling */
 .session-customisation {
-  margin-top: 2rem;
+  background-color: white;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: center;
 }
 
 .session-customisation h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.input-group {
   margin-bottom: 1rem;
 }
 
 .session-customisation label {
   display: block;
-  margin: 0.5rem 0 0.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 .session-customisation input {
-  width: 70px;
-  padding: 0.3rem;
-  margin-right: 10px;
+  width: 100px;
+  padding: 0.5rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+#setScheduleBtn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+#setScheduleBtn:hover {
+  background-color: #0056b3;
 }
 
 #scheduleDisplay {
   margin-top: 2rem;
   font-size: 1rem;
+  text-align: center;
+}
+
+/* Responsive design for timer */
+@media (max-width: 768px) {
+  .timer-display {
+    font-size: 4rem;
+  }
+  
+  .start-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+  
+  .timer-hero-section {
+    height: 50vh;
+  }
 }

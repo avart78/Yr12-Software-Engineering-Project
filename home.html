@@ -23,29 +23,33 @@
         </ul>
     </nav>
 </header>
-<img src="homepage_image.jpg" alt="Descriptive text" class="homepage_image">
 
-<div class="timer-section">
-  <div class="timer-display" id="timer">00:00</div>
-  <button id="startStopBtn">Start</button>
+<div class="timer-hero-section">
+  <div class="timer-overlay">
+    <div class="timer-display" id="timer">45:00</div>
+    <button id="startStopBtn" class="start-button">Start</button>
+  </div>
+  <div class="attribution">UK Sotheby's International Realty - Italy</div>
 </div>
 
 <div class="session-customisation">
   <h3>Customise Your Session</h3>
-  <label for="totalInput">Total Session (min):</label>
-  <input type="number" id="totalInput" value="45">
-
-  <label for="workInput">Work Block (min):</label>
-  <input type="number" id="workInput" value="20">
-
-  <label for="breakInput">Break Block (min):</label>
-  <input type="number" id="breakInput" value="5">
-
+  <div class="input-group">
+    <label for="totalInput">Total Session (min):</label>
+    <input type="number" id="totalInput" value="45">
+  </div>
+  <div class="input-group">
+    <label for="workInput">Work Block (min):</label>
+    <input type="number" id="workInput" value="20">
+  </div>
+  <div class="input-group">
+    <label for="breakInput">Break Block (min):</label>
+    <input type="number" id="breakInput" value="5">
+  </div>
   <button id="setScheduleBtn">Set Schedule</button>
 </div>
 
 <div id="scheduleDisplay"></div>
-
 
 <div class="full-width-text">
   <p>
