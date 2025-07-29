@@ -13,14 +13,21 @@
     <img src="weblogo.png" alt="Your Logo">
 </a>
     </div>
-    <nav>
-        <ul>
-            <li><a href="accountpage.html">Account</a></li>
-            <li><a href="ratingpage.html">Rating</a></li>
-            <li><a href="aboutus.html">About Us</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="sign-up.html">Sign Up</a></li>
-        </ul>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="accountpage.html">Account</a></li>
+        <li><a href="ratingpage.html">Rating</a></li>
+        <li><a href="aboutus.html">About Us</a></li>
+        <li id="login-link"><a href="login.html">Login</a></li>
+        <li id="signup-link"><a href="sign-up.html">Sign Up</a></li>
+        <li id="user-menu" style="display:none;position:relative;">
+          <span id="user-name"></span>
+          <img id="user-profile-img" src="" alt="Profile" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">
+          <div id="dropdown" style="display:none;position:absolute;background:#fff;border:1px solid #ccc;z-index:100;">
+            <a href="#" id="logout-btn">Logout</a>
+          </div>
+        </li>
+      </ul>
     </nav>
 </header>
 
@@ -34,6 +41,46 @@
   </h1>
   <h3>For Account Details</h3>
 </div>
+<div class="account-details">
+  <form id="account-form" enctype="multipart/form-data">
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email" required>
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" required>
+    <label for="password">New Password (leave blank to keep current)</label>
+    <input type="password" name="password" id="password" placeholder="New Password">
+    <label for="profile_image">Profile Image</label>
+    <input type="file" name="profile_image" id="profile_image">
+    <button type="submit">Update</button>
+  </form>
+  <img id="profile-img-preview" src="" alt="Profile Image" style="width:100px;">
+  <div id="account-msg"></div>
+</div>
+
+<script>
+function loadAccount() {
+  fetch('back-end.php?action=account')
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) { window.location.href = 'login.html'; return; }
+      document.getElementById('email').value = data.email;
+      document.getElementById('username').value = data.username;
+      document.getElementById('profile-img-preview').src = data.profile_image || 'weblogo.png';
+    });
+}
+loadAccount();
+
+document.getElementById('account-form').onsubmit = function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  fetch('back-end.php?action=account', { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('account-msg').textContent = data.success ? 'Updated!' : data.error;
+      if (data.success) loadAccount();
+    });
+};
+</script>
 
 
 

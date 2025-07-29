@@ -13,40 +13,38 @@
     <img src="weblogo.png" alt="Your Logo">
 </a>
     </div>
-    <nav>
-        <ul>
-            <li><a href="accountpage.html">Account</a></li>
-            <li><a href="ratingpage.html">Rating</a></li>
-            <li><a href="aboutus.html">About Us</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="sign-up.html">Sign Up</a></li>
-        </ul>
+    <nav id="main-nav">
+      <ul>
+        <li><a href="accountpage.html">Account</a></li>
+        <li><a href="ratingpage.html">Rating</a></li>
+        <li><a href="aboutus.html">About Us</a></li>
+        <li id="login-link"><a href="login.html">Login</a></li>
+        <li id="signup-link"><a href="sign-up.html">Sign Up</a></li>
+        <li id="user-menu" style="display:none;position:relative;">
+          <span id="user-name"></span>
+          <img id="user-profile-img" src="" alt="Profile" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">
+          <div id="dropdown" style="display:none;position:absolute;background:#fff;border:1px solid #ccc;z-index:100;">
+            <a href="#" id="logout-btn">Logout</a>
+          </div>
+        </li>
+      </ul>
     </nav>
 </header>
 
 <div class="signup-form">
   <h2>Stop Procrastination Now!</h2>
-
-  <!-- Username Input 1 -->
-  <label for="username1">Email</label>
-  <input type="text" id="Email" placeholder="Email">
-
-  <!-- Username Input 2 -->
-  <label for="username2">Username</label>
-  <input type="text" id="username" placeholder="Username">
-
-  <!-- Password Input -->
-  <label for="password">Password</label>
-  <input type="password" id="password" placeholder="Password">
-
-  <!-- Confirm Password Input -->
-  <label for="password">Confirm Password</label>
-  <input type="password" id="password2" placeholder="Confirm Password">
-
-  <!-- Sign In Button -->
-  <button class="sign-up-btn">Sign Up</button>
-
-  <!-- Sign Up Link -->
+  <form id="signup-form">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Email" required>
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Username" required>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <label for="password2">Confirm Password</label>
+    <input type="password" id="password2" name="password2" placeholder="Confirm Password" required>
+    <button type="submit" class="sign-up-btn">Sign Up</button>
+  </form>
+  <div id="signup-msg"></div>
   <p class="signin-text">
     Already have an Account? <a href="login.html">Login</a>
   </p>
@@ -55,3 +53,62 @@
             <img src="signup-image.webp" alt="Grid of 3D Prints">
         </div>
     </main>
+<script>
+function checkSession() {
+  fetch('back-end.php?action=session')
+    .then(res => res.json())
+    .then(data => {
+      if (data.logged_in) {
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('signup-link').style.display = 'none';
+        document.getElementById('user-menu').style.display = 'inline-block';
+        document.getElementById('user-name').textContent = data.username;
+        document.getElementById('user-profile-img').src = data.profile_image || 'weblogo.png';
+      } else {
+        document.getElementById('login-link').style.display = '';
+        document.getElementById('signup-link').style.display = '';
+        document.getElementById('user-menu').style.display = 'none';
+      }
+    });
+}
+checkSession();
+
+const userMenu = document.getElementById('user-menu');
+if (userMenu) {
+  userMenu.addEventListener('mouseenter', function() {
+    document.getElementById('dropdown').style.display = 'block';
+  });
+  userMenu.addEventListener('mouseleave', function() {
+    document.getElementById('dropdown').style.display = 'none';
+  });
+}
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    fetch('back-end.php?action=logout').then(() => location.reload());
+  });
+}
+
+document.getElementById('signup-form').onsubmit = function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const password2 = document.getElementById('password2').value;
+  if (password !== password2) {
+    document.getElementById('signup-msg').textContent = 'Passwords do not match!';
+    return;
+  }
+  const formData = new FormData();
+  formData.append('email', email);
+  formData.append('username', username);
+  formData.append('password', password);
+  fetch('back-end.php?action=signup', { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('signup-msg').textContent = data.success ? 'Account created!' : data.error;
+      if (data.success) location.href = 'accountpage.html';
+    });
+};
+</script>
