@@ -31,7 +31,17 @@
     </nav>
 </header>
 
-<main class="login-container">
+<div class="welcome-container" id="welcome-section" style="display: none;">
+  <div class="welcome-image">
+    <img src="san-siro.jpg" alt="San Siro Stadium">
+  </div>
+  <div class="welcome-content">
+    <div class="welcome-message">Welcome <span id="welcome-username"></span></div>
+    <a href="#" class="logout-btn" onclick="logout()">Logout</a>
+  </div>
+</div>
+
+<main class="login-container" id="login-section">
   <!-- Left: Image Grid -->
   <div class="login-image">
     <img src="login-image.webp" alt="Login-Image">
@@ -49,7 +59,7 @@
     </form>
     <div id="login-msg"></div>
     <p class="signup-text">
-      Don’t have an Account <a href="sign-up.html">Sign Up</a>
+      Don't have an Account <a href="sign-up.html">Sign Up</a>
     </p>
   </div>
 </main>
@@ -64,11 +74,20 @@ function checkSession() {
         document.getElementById('signup-link').style.display = 'none';
         document.getElementById('user-menu').style.display = 'inline-block';
         document.getElementById('user-name').textContent = data.username;
-        document.getElementById('user-profile-img').src = data.profile_image || 'weblogo.png';
+        document.getElementById('user-profile-img').src = data.profile_image || 'icon-for-user.png';
+        
+        // Show welcome section for logged in users
+        document.getElementById('welcome-section').style.display = 'flex';
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('welcome-username').textContent = data.username;
       } else {
         document.getElementById('login-link').style.display = '';
         document.getElementById('signup-link').style.display = '';
         document.getElementById('user-menu').style.display = 'none';
+        
+        // Show login section for non-logged in users
+        document.getElementById('welcome-section').style.display = 'none';
+        document.getElementById('login-section').style.display = 'flex';
       }
     });
 }
@@ -91,6 +110,10 @@ if (logoutBtn) {
   });
 }
 
+function logout() {
+  fetch('back-end.php?action=logout').then(() => location.reload());
+}
+
 document.getElementById('login-form').onsubmit = function(e) {
   e.preventDefault();
   const formData = new FormData(this);
@@ -98,9 +121,12 @@ document.getElementById('login-form').onsubmit = function(e) {
     .then(res => res.json())
     .then(data => {
       document.getElementById('login-msg').textContent = data.success ? 'Logged in!' : data.error;
-      if (data.success) location.href = 'accountpage.html';
+      if (data.success) location.href = 'home.html';
     });
 };
 </script>
+
+</body>
+</html>
 
 

@@ -31,33 +31,96 @@
     </nav>
 </header>
 
-<div class="image-section">
-        <img src="colosseum_img.jpg" alt="Image Placeholder">
+<div class="account-container">
+  <div class="account-details-section">
+    <h2>Account Details</h2>
+    <form id="account-form" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password Change</label>
+        <input type="password" name="password" id="password" placeholder="New Password">
+      </div>
+      <div class="form-group">
+        <label for="password2">Confirm Password Change</label>
+        <input type="password" name="password2" id="password2" placeholder="Confirm New Password">
+      </div>
+    </form>
+  </div>
+  
+  <div class="profile-image-section">
+    <h2>Profile Image</h2>
+    <div class="profile-image-display">
+      <img id="profile-img-preview" src="icon-for-user.png" alt="Profile Image">
     </div>
-<div class="account-page-text">
-  <h1>
-    <a href="login.html">Login</a> or
-    <a href="sign-up.html" class="signup-button">Sign Up</a>
-  </h1>
-  <h3>For Account Details</h3>
-</div>
-<div class="account-details">
-  <form id="account-form" enctype="multipart/form-data">
-    <label for="email">Email</label>
-    <input type="email" name="email" id="email" required>
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username" required>
-    <label for="password">New Password (leave blank to keep current)</label>
-    <input type="password" name="password" id="password" placeholder="New Password">
-    <label for="profile_image">Profile Image</label>
-    <input type="file" name="profile_image" id="profile_image">
-    <button type="submit">Update</button>
-  </form>
-  <img id="profile-img-preview" src="" alt="Profile Image" style="width:100px;">
-  <div id="account-msg"></div>
+    <input type="file" name="profile_image" id="profile_image" accept="image/*" style="display: none;">
+    <button type="button" class="upload-btn" onclick="document.getElementById('profile_image').click()">Upload</button>
+  </div>
 </div>
 
+<button type="button" class="confirm-btn" onclick="updateAccount()">Confirm</button>
+<div id="success-message" class="success-message"></div>
+
+<div class="footer-text">
+  <p>
+    Procrastination often creates a cycle of avoidance that leads to unfinished work and mounting stress. 
+    When tasks are delayed, deadlines approach more quickly, forcing individuals to rush their work or struggle to complete it properly. 
+    This last-minute pressure can result in lower-quality outcomes and a sense of overwhelm, making future tasks seem even more daunting. 
+    Over time, this habit can lead to chronic stress, affecting both mental and physical well-being by increasing anxiety and reducing productivity. 
+    Breaking free from procrastination requires self-discipline, structured planning, and an awareness of its negative effects—only 
+    then can individuals reclaim control over their workload and minimize stress.
+  </p>
+</div>
+
+<footer class="bottom-footer">
+  <p>Arrivederci Procrastinazione = Goodbye Procrastination</p>
+  <p>All Rights Reserved 2025</p>
+</footer>
+
 <script>
+function checkSession() {
+  fetch('back-end.php?action=session')
+    .then(res => res.json())
+    .then(data => {
+      if (data.logged_in) {
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('signup-link').style.display = 'none';
+        document.getElementById('user-menu').style.display = 'inline-block';
+        document.getElementById('user-name').textContent = data.username;
+        document.getElementById('user-profile-img').src = data.profile_image || 'icon-for-user.png';
+      } else {
+        document.getElementById('login-link').style.display = '';
+        document.getElementById('signup-link').style.display = '';
+        document.getElementById('user-menu').style.display = 'none';
+        window.location.href = 'login.html';
+      }
+    });
+}
+checkSession();
+
+const userMenu = document.getElementById('user-menu');
+if (userMenu) {
+  userMenu.addEventListener('mouseenter', function() {
+    document.getElementById('dropdown').style.display = 'block';
+  });
+  userMenu.addEventListener('mouseleave', function() {
+    document.getElementById('dropdown').style.display = 'none';
+  });
+}
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    fetch('back-end.php?action=logout').then(() => location.reload());
+  });
+}
+
 function loadAccount() {
   fetch('back-end.php?action=account')
     .then(res => res.json())
@@ -65,22 +128,76 @@ function loadAccount() {
       if (data.error) { window.location.href = 'login.html'; return; }
       document.getElementById('email').value = data.email;
       document.getElementById('username').value = data.username;
-      document.getElementById('profile-img-preview').src = data.profile_image || 'weblogo.png';
+      document.getElementById('profile-img-preview').src = data.profile_image || 'icon-for-user.png';
     });
 }
 loadAccount();
 
-document.getElementById('account-form').onsubmit = function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
+function updateAccount() {
+  const password = document.getElementById('password').value;
+  const password2 = document.getElementById('password2').value;
+  
+  if (password && password !== password2) {
+    document.getElementById('success-message').textContent = 'Passwords do not match!';
+    document.getElementById('success-message').style.display = 'block';
+    document.getElementById('success-message').style.background = '#f44336';
+    setTimeout(() => {
+      document.getElementById('success-message').style.display = 'none';
+    }, 3000);
+    return;
+  }
+  
+  const formData = new FormData();
+  formData.append('email', document.getElementById('email').value);
+  formData.append('username', document.getElementById('username').value);
+  if (password) {
+    formData.append('password', password);
+  }
+  
+  const fileInput = document.getElementById('profile_image');
+  if (fileInput.files.length > 0) {
+    formData.append('profile_image', fileInput.files[0]);
+  }
+  
   fetch('back-end.php?action=account', { method: 'POST', body: formData })
     .then(res => res.json())
     .then(data => {
-      document.getElementById('account-msg').textContent = data.success ? 'Updated!' : data.error;
-      if (data.success) loadAccount();
+      if (data.success) {
+        document.getElementById('success-message').textContent = 'Account updated successfully!';
+        document.getElementById('success-message').style.display = 'block';
+        document.getElementById('success-message').style.background = '#4CAF50';
+        setTimeout(() => {
+          document.getElementById('success-message').style.display = 'none';
+        }, 3000);
+        loadAccount();
+        document.getElementById('password').value = '';
+        document.getElementById('password2').value = '';
+        fileInput.value = '';
+      } else {
+        document.getElementById('success-message').textContent = data.error;
+        document.getElementById('success-message').style.display = 'block';
+        document.getElementById('success-message').style.background = '#f44336';
+        setTimeout(() => {
+          document.getElementById('success-message').style.display = 'none';
+        }, 3000);
+      }
     });
-};
+}
+
+document.getElementById('profile_image').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('profile-img-preview').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
 </script>
+
+</body>
+</html>
 
 
 

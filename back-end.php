@@ -41,8 +41,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'signup' && $_SERVER['REQUEST_
     $stmt->close();
 
     $hash = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $conn->prepare("INSERT INTO users (email, username, password) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $email, $username, $hash);
+    $default_profile_image = 'icon-for-user.png';
+    $stmt = $conn->prepare("INSERT INTO users (email, username, password, profile_image) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $email, $username, $hash, $default_profile_image);
     if ($stmt->execute()) {
         $_SESSION['user_id'] = $stmt->insert_id;
         json_response(['success' => true]);
