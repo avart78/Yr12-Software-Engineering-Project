@@ -31,67 +31,78 @@
     </nav>
 </header>
 
-<div class="blank-content" id="blank-section" style="display: none;">
-  <p>Rating feature coming soon...</p>
+<div id="rating-logged-in" style="display:none;">
+  <!-- Completely blank when logged in - only header shows -->
 </div>
 
-<div class="rating-image-section" id="rating-section">
+<div id="rating-logged-out" style="display:none;">
+  <div class="rating-image-section">
         <img src="san-siro.jpg" alt="Inter Stadium">
     </div>
-<div class="rating-page-text">
-  <h1>
-    <a href="login.html">Login</a> or
-    <a href="sign-up.html" class="signup-button">Sign Up</a>
-  </h1>
-  <h3>To Access Productivity Rating</h3>
+  <div class="rating-page-text">
+    <h1>
+      <a href="login.html">Login</a> or
+      <a href="sign-up.html" class="signup-button">Sign Up</a>
+    </h1>
+    <h3>To Access Productivity Rating</h3>
+  </div>
 </div>
 
 <script>
-function checkSession() {
+document.addEventListener('DOMContentLoaded', function() {
+  // Initially hide both sections
+  document.getElementById('rating-logged-in').style.display = 'none';
+  document.getElementById('rating-logged-out').style.display = 'none';
+
+  function showLoggedOut() {
+    document.getElementById('rating-logged-in').style.display = 'none';
+    document.getElementById('rating-logged-out').style.display = 'block';
+  }
+  function showLoggedIn() {
+    document.getElementById('rating-logged-in').style.display = 'block';
+    document.getElementById('rating-logged-out').style.display = 'none';
+  }
+
   fetch('back-end.php?action=session')
     .then(res => res.json())
     .then(data => {
       if (data.logged_in) {
+        // Show logged-in header
         document.getElementById('login-link').style.display = 'none';
         document.getElementById('signup-link').style.display = 'none';
         document.getElementById('user-menu').style.display = 'inline-block';
         document.getElementById('user-name').textContent = data.username;
         document.getElementById('user-profile-img').src = data.profile_image || 'icon-for-user.png';
-        
-        // Show blank content for logged in users
-        document.getElementById('blank-section').style.display = 'flex';
-        document.getElementById('rating-section').style.display = 'none';
-        document.querySelector('.rating-page-text').style.display = 'none';
+        showLoggedIn();
       } else {
+        // Show logged-out header
         document.getElementById('login-link').style.display = '';
         document.getElementById('signup-link').style.display = '';
         document.getElementById('user-menu').style.display = 'none';
-        
-        // Show rating content for non-logged in users
-        document.getElementById('blank-section').style.display = 'none';
-        document.getElementById('rating-section').style.display = 'block';
-        document.querySelector('.rating-page-text').style.display = 'block';
+        showLoggedOut();
       }
+    })
+    .catch(() => {
+      showLoggedOut();
     });
-}
-checkSession();
 
-const userMenu = document.getElementById('user-menu');
-if (userMenu) {
-  userMenu.addEventListener('mouseenter', function() {
-    document.getElementById('dropdown').style.display = 'block';
-  });
-  userMenu.addEventListener('mouseleave', function() {
-    document.getElementById('dropdown').style.display = 'none';
-  });
-}
-const logoutBtn = document.getElementById('logout-btn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    fetch('back-end.php?action=logout').then(() => location.reload());
-  });
-}
+  const userMenu = document.getElementById('user-menu');
+  if (userMenu) {
+    userMenu.addEventListener('mouseenter', function() {
+      document.getElementById('dropdown').style.display = 'block';
+    });
+    userMenu.addEventListener('mouseleave', function() {
+      document.getElementById('dropdown').style.display = 'none';
+    });
+  }
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      fetch('back-end.php?action=logout').then(() => location.reload());
+    });
+  }
+});
 </script>
 
 </body>

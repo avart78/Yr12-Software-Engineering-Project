@@ -36,7 +36,7 @@
     <img src="san-siro.jpg" alt="San Siro Stadium">
   </div>
   <div class="welcome-content">
-    <div class="welcome-message">Welcome <span id="welcome-username"></span></div>
+    <div class="welcome-message">Web name, <span id="welcome-username"></span>?</div>
     <a href="#" class="logout-btn" onclick="logout()">Logout</a>
   </div>
 </div>
@@ -65,7 +65,20 @@
     </main>
 
 <script>
-function checkSession() {
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('welcome-section').style.display = 'none';
+  document.getElementById('signup-section').style.display = 'none';
+
+  function showLoggedOut() {
+    document.getElementById('welcome-section').style.display = 'none';
+    document.getElementById('signup-section').style.display = 'block';
+  }
+  function showLoggedIn(username) {
+    document.getElementById('welcome-section').style.display = 'flex';
+    document.getElementById('signup-section').style.display = 'none';
+    document.getElementById('welcome-username').textContent = username;
+  }
+
   fetch('back-end.php?action=session')
     .then(res => res.json())
     .then(data => {
@@ -75,66 +88,61 @@ function checkSession() {
         document.getElementById('user-menu').style.display = 'inline-block';
         document.getElementById('user-name').textContent = data.username;
         document.getElementById('user-profile-img').src = data.profile_image || 'icon-for-user.png';
-        
-        // Show welcome section for logged in users
-        document.getElementById('welcome-section').style.display = 'flex';
-        document.getElementById('signup-section').style.display = 'none';
-        document.getElementById('welcome-username').textContent = data.username;
+        showLoggedIn(data.username);
       } else {
         document.getElementById('login-link').style.display = '';
         document.getElementById('signup-link').style.display = '';
         document.getElementById('user-menu').style.display = 'none';
-        
-        // Show signup section for non-logged in users
-        document.getElementById('welcome-section').style.display = 'none';
-        document.getElementById('signup-section').style.display = 'block';
+        showLoggedOut();
       }
+    })
+    .catch(() => {
+      showLoggedOut();
     });
-}
-checkSession();
 
-const userMenu = document.getElementById('user-menu');
-if (userMenu) {
-  userMenu.addEventListener('mouseenter', function() {
-    document.getElementById('dropdown').style.display = 'block';
-  });
-  userMenu.addEventListener('mouseleave', function() {
-    document.getElementById('dropdown').style.display = 'none';
-  });
-}
-const logoutBtn = document.getElementById('logout-btn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    fetch('back-end.php?action=logout').then(() => location.reload());
-  });
-}
-
-function logout() {
-  fetch('back-end.php?action=logout').then(() => location.reload());
-}
-
-document.getElementById('signup-form').onsubmit = function(e) {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const password2 = document.getElementById('password2').value;
-  if (password !== password2) {
-    document.getElementById('signup-msg').textContent = 'Passwords do not match!';
-    return;
+  const userMenu = document.getElementById('user-menu');
+  if (userMenu) {
+    userMenu.addEventListener('mouseenter', function() {
+      document.getElementById('dropdown').style.display = 'block';
+    });
+    userMenu.addEventListener('mouseleave', function() {
+      document.getElementById('dropdown').style.display = 'none';
+    });
   }
-  const formData = new FormData();
-  formData.append('email', email);
-  formData.append('username', username);
-  formData.append('password', password);
-  fetch('back-end.php?action=signup', { method: 'POST', body: formData })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('signup-msg').textContent = data.success ? 'Account created!' : data.error;
-      if (data.success) location.href = 'home.html';
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      fetch('back-end.php?action=logout').then(() => location.reload());
     });
-};
+  }
+
+  window.logout = function() {
+    fetch('back-end.php?action=logout').then(() => location.reload());
+  }
+
+  document.getElementById('signup-form').onsubmit = function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const password2 = document.getElementById('password2').value;
+    if (password !== password2) {
+      document.getElementById('signup-msg').textContent = 'Passwords do not match!';
+      return;
+    }
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('username', username);
+    formData.append('password', password);
+    fetch('back-end.php?action=signup', { method: 'POST', body: formData })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('signup-msg').textContent = data.success ? 'Account created!' : data.error;
+        if (data.success) location.href = 'home.html';
+      });
+  };
+});
 </script>
 
 </body>
