@@ -6,6 +6,7 @@ let currentTime = 0;
 let totalSession = 45;
 let workBlock = 20;
 let breakBlock = 5;
+// Timer function, default setting are displayed and set to 45, 20, 5
 
 function formatTime(seconds) {
   const mins = Math.floor(seconds / 60);
