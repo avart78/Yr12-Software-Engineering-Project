@@ -6,6 +6,9 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -182,7 +185,8 @@ nav ul li:nth-child(5) a:hover {
 .footer {
   display: flex;
   width: 100%;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
+  margin-top: auto;
 }
 
 .footer-section {
@@ -718,7 +722,10 @@ nav ul li:nth-child(5) a:hover {
     margin-top: 30px;
     margin-left: 0;
     display: block;
-    width: auto;
+    width: 200px;
+    text-align: center;
+    position: relative;
+    left: 0;
 }
 
 .success-message {
@@ -908,7 +915,10 @@ nav ul li:nth-child(5) a:hover {
     margin-top: 30px;
     margin-left: 0;
     display: block;
-    width: auto;
+    width: 200px;
+    text-align: center;
+    position: relative;
+    left: 0;
 }
 
 .success-message {
@@ -939,4 +949,78 @@ nav ul li:nth-child(5) a:hover {
 /* Remove account page paragraph styling */
 .footer-text {
     display: none !important;
+}
+
+/* Rating Display Styles */
+.rating-display-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('blue-background-image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    padding: 20px;
+}
+
+.rating-display-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.3);
+    z-index: 1;
+}
+
+.rating-number {
+    font-size: 8rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 20px;
+    font-family: 'Aptos', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.rating-caption {
+    font-size: 1rem;
+    color: #000;
+    font-weight: 500;
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.rating-label {
+    font-size: 1.5rem;
+    color: #666;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.total-sessions {
+    font-size: 1rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* Notification animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }

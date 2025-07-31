@@ -21,8 +21,8 @@
         <li id="login-link"><a href="login.html">Login</a></li>
         <li id="signup-link"><a href="sign-up.html">Sign Up</a></li>
         <li id="user-menu" style="display:none;position:relative;">
-          <span id="user-name"></span>
-          <img id="user-profile-img" src="" alt="Profile" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">
+          <img id="user-profile-img" src="" alt="Profile" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;margin-right:10px;">
+          <span id="user-name" style="margin-right:10px;font-weight:bold;"></span>
           <div id="dropdown" style="display:none;position:absolute;background:#fff;border:1px solid #ccc;z-index:100;">
             <a href="#" id="logout-btn">Logout</a>
           </div>
@@ -32,7 +32,10 @@
 </header>
 
 <div id="rating-logged-in" style="display:none;">
-  <!-- Completely blank when logged in - only header shows -->
+  <div class="rating-display-container">
+    <div class="rating-number" id="average-rating">0.0</div>
+    <div class="rating-caption" id="sessions-text">Based on 0 sessions</div>
+  </div>
 </div>
 
 <div id="rating-logged-out" style="display:none;">
@@ -61,6 +64,27 @@ document.addEventListener('DOMContentLoaded', function() {
   function showLoggedIn() {
     document.getElementById('rating-logged-in').style.display = 'block';
     document.getElementById('rating-logged-out').style.display = 'none';
+    
+    // Load and display average rating
+    loadAverageRating();
+  }
+
+  function loadAverageRating() {
+    fetch('back-end.php?action=get_average_rating')
+      .then(res => res.json())
+      .then(data => {
+        if (data.average_rating !== undefined) {
+          // Ensure we display 0.0 instead of 0
+          const rating = data.average_rating === 0 ? '0.0' : data.average_rating.toString();
+          document.getElementById('average-rating').textContent = rating;
+        }
+        if (data.total_sessions !== undefined) {
+          document.getElementById('sessions-text').textContent = `Based on ${data.total_sessions} sessions`;
+        }
+      })
+      .catch(error => {
+        console.error('Error loading average rating:', error);
+      });
   }
 
   fetch('back-end.php?action=session')

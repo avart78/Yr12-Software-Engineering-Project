@@ -144,5 +144,54 @@ if (isset($_GET['action']) && $_GET['action'] === 'account') {
     }
 }
 
+// === SESSION RATING ===
+if (isset($_GET['action']) && $_GET['action'] === 'rate_session' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_SESSION['user_id'])) {
+        json_response(['error' => 'Not logged in']);
+        exit;
+    }
+    
+    $rating = $_POST['rating'] ?? null;
+    $user_id = $_SESSION['user_id'];
+    
+    if (!$rating || !is_numeric($rating) || $rating < 1 || $rating > 5) {
+        json_response(['error' => 'Invalid rating']);
+        exit;
+    }
+    
+    $stmt = $conn->prepare("INSERT INTO session_ratings (user_id, rating, created_at) VALUES (?, ?, NOW())");
+    $stmt->bind_param("ii", $user_id, $rating);
+    
+    if ($stmt->execute()) {
+        json_response(['success' => true]);
+    } else {
+        json_response(['error' => 'Failed to save rating']);
+    }
+}
+
+// === GET AVERAGE RATING ===
+if (isset($_GET['action']) && $_GET['action'] === 'get_average_rating' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (!isset($_SESSION['user_id'])) {
+        json_response(['error' => 'Not logged in']);
+        exit;
+    }
+    
+    $user_id = $_SESSION['user_id'];
+    
+    $stmt = $conn->prepare("SELECT AVG(rating) as average_rating, COUNT(*) as total_sessions FROM session_ratings WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+    
+    $average = $data['average_rating'] ? round($data['average_rating'], 1) : 0.0;
+    $total_sessions = $data['total_sessions'] ?: 0;
+    
+    json_response([
+        'average_rating' => $average,
+        'total_sessions' => $total_sessions
+    ]);
+}
+
 json_response(['error' => 'Invalid request']);
 ?>

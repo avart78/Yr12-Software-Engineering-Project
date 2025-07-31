@@ -21,8 +21,8 @@
         <li id="login-link"><a href="login.html">Login</a></li>
         <li id="signup-link"><a href="sign-up.html">Sign Up</a></li>
         <li id="user-menu" style="display:none;position:relative;">
-          <span id="user-name"></span>
-          <img id="user-profile-img" src="" alt="Profile" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;">
+          <img id="user-profile-img" src="" alt="Profile" style="width:32px;height:32px;border-radius:50%;vertical-align:middle;margin-right:10px;">
+          <span id="user-name" style="margin-right:10px;font-weight:bold;"></span>
           <div id="dropdown" style="display:none;position:absolute;background:#fff;border:1px solid #ccc;z-index:100;">
             <a href="#" id="logout-btn">Logout</a>
           </div>
@@ -66,12 +66,15 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Initially hide both sections to prevent flicker
   document.getElementById('welcome-section').style.display = 'none';
   document.getElementById('signup-section').style.display = 'none';
+  document.querySelector('.image-grid').style.display = 'none';
 
   function showLoggedOut() {
     document.getElementById('welcome-section').style.display = 'none';
     document.getElementById('signup-section').style.display = 'block';
+    document.querySelector('.image-grid').style.display = 'block';
   }
   function showLoggedIn(username) {
     document.getElementById('welcome-section').style.display = 'flex';
