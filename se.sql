@@ -6,4 +6,6 @@ CREATE TABLE users (
     username VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     profile_image VARCHAR(255) DEFAULT NULL
-);
+)
+
+# SELECT * FROM procrastination_app.users;

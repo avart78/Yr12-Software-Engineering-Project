@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// === CONFIG ===
+// === Config - Database details ===
 $DB_HOST = 'localhost';
 $DB_USER = 'root'; 
 $DB_PASS = 'root';     
@@ -21,7 +21,7 @@ function json_response($data) {
     exit;
 }
 
-// === SIGN UP ===
+// === The Sign Up Functionality ===
 if (isset($_GET['action']) && $_GET['action'] === 'signup' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $username = trim($_POST['username'] ?? '');
@@ -52,7 +52,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'signup' && $_SERVER['REQUEST_
     }
 }
 
-// === LOGIN ===
+// === Login Functionality ===
 if (isset($_GET['action']) && $_GET['action'] === 'login' && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -73,13 +73,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'login' && $_SERVER['REQUEST_M
     }
 }
 
-// === LOGOUT ===
+// === Logout feature ===
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_destroy();
     json_response(['success' => true]);
 }
 
-// === SESSION CHECK ===
+// === Session Check ===
 if (isset($_GET['action']) && $_GET['action'] === 'session') {
     if (isset($_SESSION['user_id'])) {
         $stmt = $conn->prepare("SELECT username, profile_image FROM users WHERE id=?");
@@ -93,7 +93,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'session') {
     }
 }
 
-// === ACCOUNT DETAILS (GET/UPDATE) ===
+// === Account Details (GET/UPDATE) ===
 if (isset($_GET['action']) && $_GET['action'] === 'account') {
     if (!isset($_SESSION['user_id'])) {
         json_response(['error' => 'Not logged in']);
