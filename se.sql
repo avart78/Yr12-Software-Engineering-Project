@@ -1,3 +1,4 @@
+-- Users table
 CREATE DATABASE procrastination_app;
 USE procrastination_app;
 CREATE TABLE users (
@@ -18,3 +19,4 @@ CREATE TABLE IF NOT EXISTS session_ratings (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+

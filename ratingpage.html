@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(res => res.json())
       .then(data => {
         if (data.average_rating !== undefined) {
-          // Ensure we display 0.0 instead of 0
+          // Displaying 0.0 if a user has not rated a session
           const rating = data.average_rating === 0 ? '0.0' : data.average_rating.toString();
           document.getElementById('average-rating').textContent = rating;
         }
