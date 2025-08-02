@@ -145,7 +145,10 @@ function startStopTimer() {
 
     if (schedule.length === 0) return;
 
-    currentTime = schedule[scheduleIndex].duration * 60;
+    // Only reset currentTime if this is the first time starting or if we've moved to a new schedule block
+    if (currentTime === 0) {
+      currentTime = schedule[scheduleIndex].duration * 60;
+    }
     updateDisplay();
 
     timerInterval = setInterval(() => {
@@ -263,6 +266,7 @@ function showNotification(message) {
 function createSchedule() {
   schedule = [];
   scheduleIndex = 0;
+  currentTime = 0; // Reset current time when creating new schedule
 
   let timeRemaining = totalSession;
   
@@ -281,6 +285,7 @@ function createSchedule() {
   }
 
   if (schedule.length > 0) {
+    // Set the display to show the first work session time (20:00 by default)
     currentTime = schedule[0].duration * 60;
     updateDisplay();
   }
@@ -295,6 +300,13 @@ function setSchedule() {
   workBlock = work;
   breakBlock = breakTime;
 
+  // Stop timer if running and reset
+  if (isRunning) {
+    clearInterval(timerInterval);
+    isRunning = false;
+    document.getElementById('startStopBtn').textContent = 'Start';
+  }
+  
   createSchedule();
 
   // Update schedule display
